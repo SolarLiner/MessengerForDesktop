@@ -1,5 +1,9 @@
-# Messenger for Desktop 2
+# Messenger for Desktop
 
+**It will take some time to setup our own CI, change the URL and acknowledge all the contributors**
+
+**If you like this fork, please consider giving us a star!**
+<!--
 [![OS X build](https://travis-ci.org/Aluxian/Messenger-for-Desktop.svg?branch=staging)](https://travis-ci.org/Aluxian/Messenger-for-Desktop)
 [![Windows build](https://ci.appveyor.com/api/projects/status/2oar528hietbc77t/branch/staging?svg=true)](https://ci.appveyor.com/project/Aluxian/Messenger-for-Desktop)
 [![Linux builds](https://circleci.com/gh/Aluxian/Messenger-for-Desktop/tree/staging.svg?style=shield)](https://circleci.com/gh/Aluxian/Messenger-for-Desktop)
@@ -7,6 +11,7 @@
 [![Services status](https://img.shields.io/badge/services-status-blue.svg)](https://status.messengerfordesktop.com/)
 [![HuBoard task board](https://img.shields.io/badge/hu-board-7965cc.svg)](https://huboard.com/Aluxian/Messenger-for-Desktop)
 [![Join the chat](https://badges.gitter.im/Join%20Chat.svg)][1]
+-->
 
 A simple &amp; beautiful desktop client for [Facebook Messenger](https://www.messenger.com/). Chat without distractions on OS X, Windows and Linux. Not affiliated with Facebook. This is **NOT** an official product.
 
