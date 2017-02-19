@@ -1,3 +1,3 @@
 # Messenger for Desktop – Landing Page
 
-[http://messengerfordesktop.com/](http://messengerfordesktop.com/)
+[https://messengerfordesktop.org/](https://messengerfordesktop.org/)
