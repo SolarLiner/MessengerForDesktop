@@ -2,6 +2,8 @@
 
 **It will take some time to setup our own CI, change the URL and acknowledge all the contributors**
 
+**Somes builds still contain some crap, so be carefull. I plan to clean them entirely in the next two weeks**
+
 **If you like this fork, please consider giving us a star!**
 <!--
 [![OS X build](https://travis-ci.org/Aluxian/Messenger-for-Desktop.svg?branch=staging)](https://travis-ci.org/Aluxian/Messenger-for-Desktop)
