@@ -21,8 +21,10 @@ html
         h1.title Messenger for Desktop
         p.subtitle A simple &amp; beautiful app for Facebook Messenger.#[br]Chat without distractions on any OS.
         
-        p
+        p.description
           b This is a fork of the original #[a.link(href='https://github.com/Aluxian/Messenger-for-Desktop') project].
+          br
+          | This open-source project is hosted on #[a.link(href='https://github.com/QuriousDev/MessengerForDesktop') github].
 
         div.downloads-container
           a.winDownloadBtn.button.filled(href='https://github.com/QuriousDev/MessengerForDesktop/releases/download/v2.0.4/messengerfordesktop-2.0.4-win32-setup.exe' onclick="ga('send', 'event', {eventCategory: 'Download_Header', eventAction: 'Windows', eventLabel: this.getAttribute('galabel')})" galabel='installCore')
@@ -128,6 +130,9 @@ html
           span
             include ../svg/rpm.svg
             span RPM 64-bit
+            
+      .container
+        p.subtitle The source code is available #[a.link(href='https://github.com/QuriousDev/MessengerForDesktop') here].
 
     section.blue#featured
       .container
