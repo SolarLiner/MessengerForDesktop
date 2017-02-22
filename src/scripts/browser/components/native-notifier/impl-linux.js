@@ -47,28 +47,11 @@ class Notification {
       return;
     }
     var out = stdout.split(':');
-    // if (out[0] === 'reply') {
-    //   this.reply.replied = [true, out[1].trim()];
-    //   if (this.onReply) {
-    //     this.onReply(this.reply.replied);
-    //   }
-    // }
-    if (out[0] === 'ans') {
-      var args = [
-        '--entry',
-        '--title', 'Reply to ' + this.reply.payload.expedient,
-        '--text', this.reply.payload.message
-      ];
-      ChildProcess.exec('zenity', args, {}, (err, stdout, stderr) => {
-        if (err) {
-          console.log('Error while replying from notification\n${err}\nstdout: ${stdout}');
-          ChildProcess.execFile('zenity', ['--error', '--message=Could not send reply.']);
-          return;
-        }
-        if (this.onReply) {
-          this.onReply(stdout);
-        }
-      });
+    if (out[0] === 'reply') {
+      this.reply.replied = [true, out[1].trim()];
+      if (this.onReply) {
+        this.onReply(this.reply.replied);
+      }
     }
   }
 
@@ -79,18 +62,11 @@ class Notification {
       '--body', this.body,
       '--icon', this.icon
     ];
-    // if (this.reply.isReply) {
-    //   args.push([
-    //     '--reply',
-    //     '--reply-to', this.reply.payload.expedient,
-    //     '--reply-message', this.reply.payload.message
-    //   ]);
-    // }
-
-    // Workaround
     if (this.reply.isReply) {
       args.push([
-        '--action', 'ans,Answer'
+        '--reply',
+        '--reply-to', this.reply.payload.expedient,
+        '--reply-message', this.reply.payload.message
       ]);
     }
 
