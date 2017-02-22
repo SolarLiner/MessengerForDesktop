@@ -1,5 +1,5 @@
 import BaseNativeNotifier from 'browser/components/native-notifier/base';
-import ChildProcess from 'child-process';
+import ChildProcess from 'child_process';
 import manifest from '../../../../package.json';
 
 class Notification {
