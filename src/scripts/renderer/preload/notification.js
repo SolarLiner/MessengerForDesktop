@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 import {remote} from 'electron';
 
-import platform from 'common/utils/platform';
+// import platform from 'common/utils/platform';
 
 const nativeNotifier = remote.require('common/bridges/native-notifier').default;
 const mainWindowManager = remote.getGlobal('application').mainWindowManager;
@@ -11,7 +11,8 @@ window.Notification = (function (Html5Notification) {
   log('extending HTML5 Notification');
 
   const Notification = function (title, options) {
-    if (!nativeNotifier.isImplemented || !platform.isDarwin && !platform.isWindows7) {
+    // TODO: Restore previous logic (which is ??? IMHO)
+    if (!nativeNotifier.isImplemented/* || !platform.isDarwin && !platform.isWindows7*/) {
       log('showing html5 notification', title, options);
       const notification = new Html5Notification(title, options);
 

@@ -3,11 +3,17 @@ import ChildProcess from 'child_process';
 import manifest from '../../../../package.json';
 
 class Notification {
-  constructor (appTitle, title, body, icon) {
-    this.app = appTitle;
-    this.title = title;
+  constructor (appTitle, title, subtitle, body) {
+    this.app = appTitle.trim();
+    log('Notification.app');
+    this.title = title.trim();
+    log('Notification.title');
+    this.subtitle = subtitle.trim();
+    log('Notification.subtitle');
     this.body = body;
-    this.icon = icon;
+    log('Notification.body');
+    this.icon = './resources/app/images/windowIcon.png';
+    log('Notification.icon');
     this.onCreate = null;
     this.onReply = null;
     this.reply = {
@@ -21,6 +27,7 @@ class Notification {
   }
 
   setReply (expedient, message) {
+    log('Notification.setReply(' + expedient + ', ' + message, ')');
     this.reply.isReply = true;
     this.reply.payload = {
       message: message,
@@ -29,6 +36,7 @@ class Notification {
   }
 
   on (event, callback) {
+    log('Notification.on(' + event + ', ' + callback, ')');
     switch (event) {
       case 'create':
         this.onCreate = callback;
@@ -42,8 +50,9 @@ class Notification {
   }
 
   notificationCallback (err, stdout, stderr) {
+    log('Notification.notificationCallback(' + [err, stdout, stderr].join(', ') + ')');
     if (err) {
-      console.log(err);
+      logError(err);
       return;
     }
     var out = stdout.split(':');
@@ -56,21 +65,26 @@ class Notification {
   }
 
   show () {
-    var args = [
+    var args = ['libnotify-terminal',
       '--app-title', this.app,
       '--title', this.title,
+      '--subtitle', this.subtitle + ':',
       '--body', this.body,
       '--icon', this.icon
     ];
     if (this.reply.isReply) {
-      args.push([
+      args.push(
         '--reply',
         '--reply-to', this.reply.payload.expedient,
         '--reply-message', this.reply.payload.message
-      ]);
+      );
     }
 
-    ChildProcess.exec('libnotify-terminal', args, {}, this.notificationCallback);
+    log('Notification.show() ' + JSON.stringify(Object.assign({}, this.reply, args)));
+    args.forEach((val, idx, arr) => {
+      arr[idx] = '"' + val + '"';
+    });
+    ChildProcess.exec(args.join(' '), this.notificationCallback);
     if (this.onCreate) {
       this.onCreate();
     }
@@ -80,13 +94,12 @@ class Notification {
 class LinuxNativeNotifier extends BaseNativeNotifier {
   constructor () {
     super();
+    log('new LinuxNativeNotifier()');
 
     // Signals that the notifier is implemented.
     this.isImplemented = true;
     // Toggles whether the reply is shown only when the reply window (concealed), or both in the notification and in the reply window.
     this.replyConceal = false;
-    // Gets the application name (shows on lock screen)
-    this.app_title = manifest.productName;
     // Toggles repliability of notifications
     this.canReply = true;
     // Creates an array with notifications
@@ -104,26 +117,29 @@ class LinuxNativeNotifier extends BaseNativeNotifier {
     onClick,
     onCreate
   }) {
+    log('fireNotification() - ', JSON.stringify(this));
     const identifier = tag + ':::' + Date.now();
 
-    var n = new Notification(manifest.productName, title, body, icon);
+    var n = new Notification(manifest.productName, 'New message on Messenger', title, body);
     if (this.canReply) {
-      n.setReply(title.split(':')[0].trim(), body);
+      log('Notification can reply');
+      n.setReply(title, body);
     }
     n.on('reply', (message) => {
       var payload = {
         response: message
       };
+      log('onReply(', message, ') ' + JSON.stringify(payload));
       onClick(payload);
     });
 
     n.on('create', () => {
-      const data = {title, body, footer, timeout, tag, onClick, onCreate, identifier};
       if (onCreate) {
+        const data = {title, body, footer, timeout, tag, onClick, onCreate, identifier};
         onCreate(data);
       }
     });
-
+    log('Showing libnotify-terminal notification ' + identifier);
     n.show();
 
     this.notifications[identifier] = n;
