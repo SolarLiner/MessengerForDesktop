@@ -78,10 +78,11 @@ window.Notification = (function (Html5Notification) {
   return Object.assign(Notification, Html5Notification);
 })(window.Notification);
 
-function typeReply (replyText, elem) {
+function typeReply (replyText) {
   const event = document.createEvent('TextEvent');
   event.initTextEvent('textInput', true, true, window, replyText, 0, 'en-US');
   const inputField = document.querySelector('[contenteditable="true"]');
+  log('typeReply(' + replyText + ')');
   if (inputField) {
     inputField.focus();
     return inputField.dispatchEvent(event);

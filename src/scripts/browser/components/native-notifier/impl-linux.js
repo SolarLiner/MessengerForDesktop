@@ -3,17 +3,11 @@ import ChildProcess from 'child_process';
 import manifest from '../../../../package.json';
 
 class Notification {
-  constructor (appTitle, title, subtitle, body) {
-    this.app = appTitle.trim();
-    log('Notification.app');
-    this.title = title.trim();
-    log('Notification.title');
-    this.subtitle = subtitle.trim();
-    log('Notification.subtitle');
+  constructor (appTitle, title, body) {
+    this.app = appTitle;
+    this.title = title;
     this.body = body;
-    log('Notification.body');
     this.icon = './resources/app/images/windowIcon.png';
-    log('Notification.icon');
     this.onCreate = null;
     this.onReply = null;
     this.reply = {
@@ -36,7 +30,6 @@ class Notification {
   }
 
   on (event, callback) {
-    log('Notification.on(' + event + ', ' + callback, ')');
     switch (event) {
       case 'create':
         this.onCreate = callback;
@@ -50,7 +43,7 @@ class Notification {
   }
 
   notificationCallback (err, stdout, stderr) {
-    log('Notification.notificationCallback(' + [err, stdout, stderr].join(', ') + ')');
+    log('Notification.notificationCallback()');
     if (err) {
       logError(err);
       return;
@@ -68,7 +61,6 @@ class Notification {
     var args = ['libnotify-terminal',
       '--app-title', this.app,
       '--title', this.title,
-      '--subtitle', this.subtitle + ':',
       '--body', this.body,
       '--icon', this.icon
     ];
@@ -120,7 +112,7 @@ class LinuxNativeNotifier extends BaseNativeNotifier {
     log('fireNotification() - ', JSON.stringify(this));
     const identifier = tag + ':::' + Date.now();
 
-    var n = new Notification(manifest.productName, 'New message on Messenger', title, body);
+    var n = new Notification(manifest.productName, title, body);
     if (this.canReply) {
       log('Notification can reply');
       n.setReply(title, body);
@@ -129,7 +121,7 @@ class LinuxNativeNotifier extends BaseNativeNotifier {
       var payload = {
         response: message
       };
-      log('onReply(', message, ') ' + JSON.stringify(payload));
+      log('onReply() ' + JSON.stringify(payload));
       onClick(payload);
     });
 
