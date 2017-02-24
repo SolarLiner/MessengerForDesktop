@@ -57,9 +57,9 @@ class Notification {
     }
     var out = stdout.split(':');
     if (out[0] === 'reply') {
-      this.reply.replied = [true, out[1].trim()];
+      // this.reply.replied = [true, out[1].trim()];
       if (this.onReply) {
-        this.onReply(this.reply.replied);
+        this.onReply(out[1].trim());
       }
     }
   }
